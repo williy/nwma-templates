@@ -1,16 +1,23 @@
 # NWMA Implementation Templates (A/B/C Sheets)
 
 ## 1. Overview
-本リポジトリは、設計思想 **NWMA (Net Worth Management Architecture)** を具体化し、インフラ設計における「価値の保存」と「責任境界の分離」を証明するための実装テンプレート群です。
+本リポジトリは、設計思想 **NWMA (Next-gen Worth Management Architecture)** を具体化し、インフラ設計における「価値の保存」と「責任境界の分離」を証明するための実装テンプレート群です。
 
 従来の「作業指示」としての設計書を廃し、要件(A)・構造(B)・試験(C)を一本の論理（Why）で繋ぐことで、IaC（Terraform / Ansible）による自動執行の正当性を担保します。
 
+---
 
+## 2. NWMA Architecture Model
+インフラ全体の自律性を高めるため、以下の3つのサブ概念で構成を管理します。
+
+* **NWMA (Next-gen Worth Management Architecture)**: 全体の統治思想。要件(A)・構造(B)・試験(C)の論理整合性を担保。
+* **IWMA (Infrastructure Worth Management Architecture)**: 基盤層の管理。クラウドはTerraform、オンプレは手順書で「器」を定義。
+* **PWMA (Platform Worth Management Architecture)**: プラットフォーム層の管理。SSH接続可能な全リソースをAnsibleで一元管理。
 
 ---
 
-## 2. The Core Architecture: A/B/C Sheets
-NWMAでは、設計を以下の3つの階層（Layer）で管理し、ドキュメント間での完全なトレーサビリティを実現します。
+## 3. The Core Architecture: A/B/C Sheets
+設計を3つの階層で管理し、ドキュメント間での完全なトレーサビリティを実現します。
 
 | Sheet | Role | Key Output / Target KPI |
 | :--- | :--- | :--- |
@@ -20,23 +27,47 @@ NWMAでは、設計を以下の3つの階層（Layer）で管理し、ドキュ�
 
 ---
 
-## 3. Implementation Stack
-本テンプレートは、以下の技術スタックとの併用を前提に最適化されています。
+## 4. Directory Structure
+管理手法（Terraform / Ansible / 手順書）によって場所を分けることで、実務における迷いを排除します。
 
-* **Public Cloud**: Google Cloud (GKE Autopilot, Cloud Run, Cloud Spanner)
+```text
+nwma-templates/
+├── docs/                 # NWMA共通の思想・ガイドライン
+├── IWMA/                 # 基盤構成（Infrastructure）
+│   ├── cloud/            # Terraformによる管理
+│   └── on-premise/       # 手順書ベースの管理（VMware等）
+└── PWMA/                 # 構成管理（Platform）
+    └── ansible/          # SSH接続によるOS・ミドルウェア設定
+
+---
+
+## 5. Implementation Stack
+NWMAは特定の技術に依存しませんが、以下のスタックとの併用で最大の効果を発揮します。
+
+* **Public Cloud**: Google Cloud (GKE Autopilot, Cloud Run, Cloud Spanner) / Microsoft Azure
 * **Infrastructure as Code**:
-    * **Terraform**: 構造の固定化、および「クラウドベンダー責務」と「利用者責務」の境界線定義。
-    * **Ansible**: 構成の状態維持（冪等性）および時間経過によるドリフト（状態逸脱）の抑制。
+    * **Terraform (IWMA)**: 基盤の「器」の固定化。クラウドベンダー責務と利用者責務の境界定義。
+    * **Ansible (PWMA)**: OS・ミドルウェアの状態維持。SSH接続可能な全リソースの構成ドリフト抑制。
+* **Virtualization**: VMware vSphere / vSAN / NSX-T (HCI基盤)
 
 ---
 
-## 4. Why use NWMA Templates?
-* **From "Hours" to "Value"**: 稼働時間ではなく、設計によってどれだけの「将来リスク（コスト）」を吸収したかをA-Sheetで可視化します。
-* **Responsibility Isolation**: B-Sheetで責任の所在を明確に分離し、不条理な責任追及を排除する「設計の盾」として機能します。
-* **Traceability**: 要件No（A-No）が各設計値・試験項目に紐付くため、AIによる自動レビューや監査への耐性が飛躍的に向上します。
+## 6. Why NWMA?
+* **From "Hours" to "Value"**: 単なる構築時間ではなく、設計によってどれだけの将来リスクを吸収したかをA-Sheetで可視化します。
+* **Responsibility Isolation**: B-Sheetで責任の所在（ベンダー/自社/チーム）を明確にし、不透明な責任追及を排除する「設計の盾」となります。
+* **AI-Ready Traceability**: 要件No（A-No）が試験項目まで紐付くため、生成AIによる設計監査や、自動ドキュメント生成との親和性が極めて高い構造です。
 
 ---
 
-## 5. Getting Started
-1. `templates/` ディレクトリ内の各シート（Markdown/Excel形式）をダウンロードします。
-2. インデックス記事 [「NWMAの地図」](https://zenn.dev/asurawill/articles/your-index-article-link) を参照し、設計思想の全体像を把握してください。
+## 7. Getting Started
+1. **ガイドラインの確認**: `docs/` 内のドキュメントでNWMAの基本思想を理解します。
+2. **シートの活用**: 
+   - 基盤構築（クラウド/オンプレ）なら `IWMA/` 内のテンプレートを選択。
+   - OS・ミドルウェア設定なら `PWMA/` 内のテンプレートを選択。
+3. **事例の参照**: `examples/` 内にある「K3s on Ubuntu」の実装事例を参考に、要件から試験までの繋がりを確認してください。
+
+---
+
+## 8. Links & Resources
+* **連載記事**: [「NWMAの地図」- Zenn](https://zenn.dev/asurawill/articles/your-index-article-link)
+* **Author**: Hitoshi K. (Platform Architect)
