@@ -38,6 +38,7 @@ nwma-templates/
 │   └── on-premise/       # 手順書ベースの管理（VMware等）
 └── PWMA/                 # 構成管理（Platform）
     └── ansible/          # SSH接続によるOS・ミドルウェア設定
+```
 
 ---
 
