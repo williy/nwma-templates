@@ -55,13 +55,3 @@ artifacts:
   A_Sheet: "Why (意志の資産化 - 要件定義)"
   B_Sheet: "How (構造の正本 - IaC/設計図)"
   C_Sheet: "Verification (自律的な証明 - 試験/検証)"
-
-# 今後のマイルストーン
-tomorrows_task:
-  Select_A: "【基礎編】要件定義とSLA/SLO"
-  Select_B: "【実践編】Google Cloud + Terraform + Ansible で作る論理的ブレードシステム"
-
-constraints:
-  - "Google Cloud の正式名称を使用（GCP禁止）"
-  - "画像内テキストは英語のみ"
-  - "一文は40〜60文字程度で構成"
