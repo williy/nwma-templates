@@ -12,9 +12,11 @@
 
 インフラ全体の自律性を高めるため、以下の3つのサブ概念で構成を管理します。
 
-* **NWMA (Net Worth Management Architecture)**: 全体の統治思想。要件(A)・構造(B)・試験(C)の論理整合性を担保。
-* **IWMA (Infrastructure Worth Management Architecture)**: 基盤層の管理。クラウドはTerraform、オンプレは手順書で「器」を定義。
-* **PWMA (Platform Worth Management Architecture)**: プラットフォーム層の管理。SSH接続可能な全リソースをAnsibleで一元管理。
+* **NWMA (Net Worth Management Architecture)**: 全体を貫く設計基準・判断基準の策定・価値の数値化。設計のあらゆる判断に一本の筋を通し、要件・構造・試験をセットで記録することで、10年先でも『なぜこの形なのか』を誰もが理解できる資産価値を確立します。
+* **IWMA (Infrastructure Worth Management Architecture)**: 基盤層（器）の設計・境界と責任の定義（マルチクラウド・オンプレ対応）。製品の寿命やクラウドベンダーの統廃合に左右されず、基盤（器）の変遷を記録し続けることで、AI時代に通用する技術資産を確立します。
+* **PWMA (Platform Worth Management Architecture)**: プラットフォーム層（状態）の管理・自律的な執行。OS・ミドルウェアの設定をコード化し、設計時の意志を24時間365日、強制的に維持・執行し続けることで構成ドリフトを根絶します。
+
+**参考記事**: [「NWMAの地図」- Zenn](https://zenn.dev/asurawill/articles/d17d9407671e41)
 
 ---
 
