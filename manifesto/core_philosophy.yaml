@@ -1,61 +1,67 @@
-context:
-  project: NWMA (Net Worth Management Architecture)
-  author_profile: "プラットフォームアーキテクト、インフラエンジニア"
-  core_philosophy: "効率化によって失われた設計の『判断』と『意味』を取り戻し、価値を保存する"
-  target_platform: Zenn / GitHub
+version: "2026.01.10"
+project: NWMA (Net Worth Management Architecture)
+japanese_name: "IT資産価値管理方式"
+author_profile: "プラットフォームアーキテクト、インフラエンジニア"
 
+# 核心的思想
+core_philosophy:
+  statement: "SLAを自動執行しない設計は未完成である"
+  goal: "効率化によって失われた設計の『判断』と『意味』を取り戻し、10年先でも価値を保存し続ける"
+  governance: "人間を単純な調整から解放し、数学的な誠実さに基づく自己修復をシステムに義務付ける"
+
+# 参照情報
 reference_urls:
+  manifesto_official: "https://juicyltd.biz/nwma-manifesto/"
   manifesto_zenn: "https://zenn.dev/asurawill/articles/d17d9407671e41"
   implementation_github: "https://github.com/williy/nwma-templates"
 
-framework_definition:
-  NWMA:
-    full_name: "Net Worth Management Architecture"
-    japanese_name: "IT資産価値管理方式"
-    role: "全体を貫く設計基準・判断基準の策定・価値の数値化"
-    artifacts: ["Aシート(要件)", "Bシート(構造)", "Cシート(試験)"]
-    description: "設計のあらゆる判断に一本の筋を通し、要件・構造・試験をセットで記録することで、10年先でも『なぜこの形なのか』を誰もが理解できる資産価値を確立します。"
+# 統治階層の定義
+architecture_layers:
+  NWMA (The Constitution):
+    role: "最上位の設計憲法・判断基準の策定"
+    responsibility: "A/B/Cシートの整合性担保、価値の数値化"
+    action: "自らは直接操作せず、IWMA/PWMAへ執行を委譲する"
     in_short: "10年後、誰一人として『これ作ったの誰だよ！意味わかんねぇよ！』と絶望させないための設計の仕組み"
-  IWMA:
-    full_name: "Infrastructure Worth Management Architecture"
-    japanese_name: "インフラストラクチャ資産管理方式"
-    role: "基盤層（器）の設計・境界と責任の定義（マルチクラウド・オンプレ対応）"
+  
+  IWMA (Infrastructure / The Vessel):
+    role: "基盤（器）の設計・境界定義"
+    responsibility: "物理/仮想リソースの提供、データの永続化層の保護"
     tools: ["Terraform", "Bicep", "CloudFormation", "Google Cloud / AWS / Azure / OCI", "手順書(オンプレ)"]
-    description: "製品の寿命やクラウドベンダーの統廃合に左右されず、基盤（器）の変遷を記録し続けることで、AI時代に通用する技術資産を確立します。"
-    in_short: "「器」の設計をIaCや文書で残し、10年後の製品更改時にも迷わず次代へ意志を繋ぐための仕組み"
-  PWMA:
-    full_name: "Platform Worth Management Architecture"
-    japanese_name: "プラットフォーム資産管理方式"
-    role: "プラットフォーム層（状態）の管理・自律的な執行"
+    target: "VM, Network, Managed Services (Cloud SQL/GCS etc.)"
+  
+  PWMA (Platform / The State):
+    role: "プラットフォーム（状態）の自律執行"
+    responsibility: "OS/MW設定の維持、構成ドリフトの根絶、再デプロイの執行"
     tools: ["Ansible", "K8s", "Helm", "SSH管理全般"]
-    description: "OS・ミドルウェアの設定をコード化し、設計時の意志を24時間365日、強制的に維持・執行し続けることで構成ドリフトを根絶します。"
-    in_short: "「いつ誰が何を変えたかわからない」をゼロにし、コード一つで『正しい状態』を何度でも再現するための、嘘をつかないシステムの仕組み"
+    target: "OS settings, Middleware config, Application runtime"
 
+# 永続化の原則 (データの聖域化)
+persistence_policy:
+  hierarchy_separation:
+    - layer: "Execution (PWMA/IWMA)"
+      status: "Ephemeral (使い捨て可能)"
+      action: "異常検知時に自動再デプロイを執行する"
+    - layer: "Data (Asset)"
+      status: "Sanctuary (聖域・執行対象外)"
+      action: "削除保護(prevent_destroy)により、器の再生成から隔離・永続化する"
+  
+  execution_order:
+    1: "PWMA層の再同期 (設定リロード/プロセス再起動)"
+    2: "IWMA層の再生成 (器の再起動/再デプロイ)"
+    3: "エスカレーション (人間に主権を戻す)"
+
+# 資産の三位一体 (The Triplets)
+artifacts:
+  A_Sheet: "Why (意志の資産化 - 要件定義)"
+  B_Sheet: "How (構造の正本 - IaC/設計図)"
+  C_Sheet: "Verification (自律的な証明 - 試験/検証)"
+
+# 今後のマイルストーン
 tomorrows_task:
-  Select A:
-    title: "【基礎編】要件定義とSLA/SLO"
-    key_components:
-      - 定型化できる非機能要件
-      - 業務に特化した機能要件の種類と決め方
-      - 設計時や構築後の検証時に融通が利く要件定義の進め方
-    output_style:
-      - "一文は40〜60文字程度、句読点を適切に配置"
-      - "H2/H3見出しを階層的に使用"
-      - "技術的正確性と設計思想（Why）の融合"
-      - "用語『羅針盤』は使用禁止"
-  Select B:
-    title: "Windows 11 WSL2 で始める Google Cloud + Terraform + Ansible 環境ガイド【実践編】"
-    key_components:
-      - Google Cloud (GKE / MariaDB / Wordpress)
-      - Management VPN (Terraform/Ansible接続用)
-      - Multi-Project / Subscription Management
-    output_style:
-      - "一文は40〜60文字程度、句読点を適切に配置"
-      - "H2/H3見出しを階層的に使用"
-      - "技術的正確性と設計思想（Why）の融合"
-      - "用語『羅針盤』は使用禁止"
+  Select_A: "【基礎編】要件定義とSLA/SLO"
+  Select_B: "【実践編】Google Cloud + Terraform + Ansible で作る論理的ブレードシステム"
 
 constraints:
   - "Google Cloud の正式名称を使用（GCP禁止）"
   - "画像内テキストは英語のみ"
-  - "SEOと可読性を重視したセクション分割"
+  - "一文は40〜60文字程度で構成"

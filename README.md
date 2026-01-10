@@ -1,89 +1,78 @@
-# NWMA Implementation Templates (A/B/C Sheets)
+# NWMA Templates: IT資産価値管理方式 (Net Worth Management Architecture)
 
-## 1. Overview
+> **「SLAを自動執行しない設計は未完成である」**
 
-本リポジトリは、設計思想 **NWMA (Net Worth Management Architecture)** を具体化し、インフラ設計における「価値の保存」と「責任境界の分離」を証明するための実装テンプレート群です。
+NWMAは、効率化の代償として失われた設計の「判断」と「意味」を取り戻し、ITシステムを負債ではなく「資産」として維持するための設計憲法です。
 
-従来の「作業指示」としての設計書を廃し、要件(A)・構造(B)・試験(C)を一本の論理（Why）で繋ぐことで、IaC（Terraform / Ansible）による自動執行の正当性を担保します。
+## 1. 原典（Manifesto）
 
----
-
-## 2. NWMA Architecture Model
-
-インフラ全体の自律性を高めるため、以下の3つのサブ概念で構成を管理します。
-
-* **NWMA (Net Worth Management Architecture)**: 全体を貫く設計基準・判断基準の策定・価値の数値化。設計のあらゆる判断に一本の筋を通し、要件・構造・試験をセットで記録することで、10年先でも『なぜこの形なのか』を誰もが理解できる資産価値を確立します。
-* **IWMA (Infrastructure Worth Management Architecture)**: 基盤層（器）の設計・境界と責任の定義（マルチクラウド・オンプレ対応）。製品の寿命やクラウドベンダーの統廃合に左右されず、基盤（器）の変遷を記録し続けることで、AI時代に通用する技術資産を確立します。
-* **PWMA (Platform Worth Management Architecture)**: プラットフォーム層（状態）の管理・自律的な執行。OS・ミドルウェアの設定をコード化し、設計時の意志を24時間365日、強制的に維持・執行し続けることで構成ドリフトを根絶します。
-
-**参考記事**: [「NWMAの地図」- Zenn](https://zenn.dev/asurawill/articles/d17d9407671e41)
+最新の思想定義とSLA自動執行の理論については、公式サイトを参照してください。
+👉 [NWMA公式サイト：SLA自動執行による設計の主権回復](https://juicyltd.biz/nwma-manifesto/)
 
 ---
 
-## 3. The Core Architecture: A/B/C Sheets
+## 2. 統治構造と階層定義
 
-設計を3つの階層で管理し、ドキュメント間での完全なトレーサビリティを実現します。
+NWMAは、以下の 3 つのレイヤーによってシステムの健全性を自律的に維持します。
 
-| Sheet | Role | Key Output / Target KPI |
+* **NWMA (The Constitution / 憲法)**
+全体を貫く設計基準。要件（A）・構造（B）・試験（C）をセットで記録し、10年先でも「なぜこの形なのか」を誰もが理解できる資産価値を確立します。
+* **IWMA (The Vessel / 器)**
+インフラ基盤。Terraform 等を用い、製品の寿命やクラウドベンダーの変遷に左右されない「器」の境界と責任を定義します。
+* **PWMA (The State / 状態)**
+プラットフォーム。Ansible 等を用い、設計時の意志を 24 時間強制執行。構成ドリフトを根絶し、何度でも「正しい状態」を再現します。
+
+---
+
+## 3. 永続化の原則：データの聖域化
+
+NWMAは「器（OS/MW）」と「資産（データ）」を物理的・論理的に切り離す**「論理的ブレードサーバ革命」**を推進します。
+
+* **器は使い捨て:** 異常検知時には自動的に再デプロイされ、常に新品の状態へ回帰します。
+* **データは聖域:** データベースやストレージは執行対象外として保護。器が何度壊れても、資産は一瞬たりとも失われません。
+
+これにより、バックアップ対象を「純粋なデータ層」のみに絞り込み、SLA（復旧時間）の数学的保証を実現します。
+
+---
+
+## 4. The Triplets: A/B/C Sheets
+
+設計を 3 つの階層で管理し、完全なトレーサビリティを実現します。
+
+| Sheet | Role | Output / Target |
 | --- | --- | --- |
-| **A-Sheet (Requirement)** | 設計判断の根拠 (Why) の定義 | 投資対効果、リスク許容度の合意 |
-| **B-Sheet (Architecture)** | 構造と責任境界 (Who/Where) の設計 | 可用性SLA、Google Cloud マネージド活用率 |
-| **C-Sheet (Verification)** | 設計の正当性 (Proof) の証明 | 構成逸脱率の抑制、復旧時間(MTTR)の短縮 |
+| **A-Sheet (Requirement)** | 設計判断の根拠 (Why) | 投資対効果、SLA/SLOの定義 |
+| **B-Sheet (Structure)** | 構造の正本 (How) | IaC (Terraform / Ansible), 責任境界 |
+| **C-Sheet (Verification)** | 設計の正当性 (Proof) | 自動検証スクリプト, 構成逸脱率の抑制 |
 
 ---
 
-## 4. Directory Structure
+## 5. Directory Structure
 
-管理手法（Terraform / Ansible / 手順書）によって場所を分けることで、実務における迷いを排除します。
+管理手法によって場所を分けることで、実務における迷いを排除します。
 
 ```text
 nwma-templates/
-├── docs/                 # NWMA共通の思想・ガイドライン
-├── IWMA/                 # 基盤構成（Infrastructure）
-│   ├── cloud/            # Terraformによる管理
-│   └── on-premise/       # 手順書ベースの管理（VMware等）
-└── PWMA/                 # 構成管理（Platform）
-    └── ansible/          # SSH接続によるOS・ミドルウェア設定
+├── core_philosophy.yaml    # NWMAの神様定義ファイル
+├── A-Sheets/               # 要件定義テンプレート（Whyの保存）
+├── B-Sheets/               # 構造の正本（Howの自動執行）
+│   ├── IWMA/               # インフラ基盤（Terraform / 手順書）
+│   └── PWMA/               # プラットフォーム（Ansible / K8s）
+└── C-Sheets/               # 検証スクリプト（Proofの自動証明）
 
 ```
 
 ---
 
-## 5. Implementation Stack
-
-NWMAは特定の技術に依存しませんが、以下のスタックとの併用で最大の効果を発揮します。
-
-* **Public Cloud**: Google Cloud (GKE Autopilot, Cloud Run, Cloud Spanner) / Microsoft Azure
-* **Infrastructure as Code**:
-* **Terraform (IWMA)**: 基盤の「器」の固定化。クラウドベンダー責務と利用者責務の境界定義。
-* **Ansible (PWMA)**: OS・ミドルウェアの状態維持。SSH接続可能な全リソースの構成ドリフト抑制。
-
-
-* **Virtualization**: VMware vSphere / vSAN / NSX-T (HCI基盤)
-
----
-
 ## 6. Why NWMA?
 
-* **From "Hours" to "Value"**: 単なる構築時間ではなく、設計によってどれだけの将来リスクを吸収したかをA-Sheetで可視化します。
-* **Responsibility Isolation**: B-Sheetで責任の所在（ベンダー/自社/チーム）を明確にし、不条理な責任追及を排除する「設計の盾」となります。
-* **AI-Ready Traceability**: 要件No（A-No）が試験項目まで紐付くため、生成AIによる設計監査や、自動ドキュメント生成との親和性が極めて高い構造です。
+* **Responsibility Isolation:** B-Sheetで責任の所在を明確にし、不条理な責任追及を排除する「設計の盾」となります。
+* **SLA Auto-Execution:** 監視メトリクスと連動し、異常時に「PWMAリロード → IWMA再構築」を自動執行します。
+* **AI-Ready:** 全ての設計判断が構造化（YAML）されているため、AIによる設計監査や保守との親和性が極めて高い構造です。
 
 ---
 
-## 7. Getting Started
+## 7. Links & Resources
 
-1. **ガイドラインの確認**: `docs/` 内のドキュメントでNWMAの基本思想を理解します。
-2. **シートの活用**:
-* 基盤構築（クラウド/オンプレ）なら `IWMA/` 内のテンプレートを選択。
-* OS・ミドルウェア設定なら `PWMA/` 内のテンプレートを選択。
-
-
-3. **事例の参照**: `examples/` 内にある「K3s on Ubuntu」の実装事例を参考に、要件から試験までの繋がりを確認してください。
-
----
-
-## 8. Links & Resources
-
-* **連載記事**: [「NWMAの地図」- Zenn](https://zenn.dev/asurawill/articles/d17d9407671e41)
+* **解説記事**: [「NWMAの地図」- Zenn](https://zenn.dev/asurawill/articles/d17d9407671e41)
 * **Author**: Hitoshi K. (Platform Architect)
