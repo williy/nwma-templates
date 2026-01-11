@@ -1,0 +1,87 @@
+version: "2026.01.11.05"
+status: "MISSION_ACCOMPLISHED_WITH_PERMANENCE"
+objective: "NWMA 2026 旗艦コンテンツのロールアウトと統治基盤の完全確立"
+
+# 📂 ファイルシステム・ツリー (File System Tree)
+# ローカルリポジトリの状態を常に同期。決して削除しない。
+file_system_tree: |
+  ./
+  ├── A-Sheets
+  ├── B-Sheets
+  │   ├── IWMA
+  │   └── PWMA
+  ├── C-Sheets
+  ├── README.md
+  ├── chronicle
+  │   └── 2026-01
+  │       ├── 2026-01-10_sanctuary-definition.yaml
+  │       ├── 2026-01-11_sanctuary-definition-01.yaml
+  │       ├── 2026-01-11_sanctuary-definition-02.yaml
+  │       ├── 2026-01-11_sanctuary-definition-03.yaml
+  │       └── 2026-01-11_sanctuary-definition-05.yaml
+  ├── examples
+  │   └── NWMA_CaseStudy_K3s_on_Ubuntu.md
+  ├── manifesto
+  │   └── core_philosophy.yaml
+  └── templates
+      ├── A_Requirement_Sheet.md (v2026.1 Technical)
+      ├── B_Architecture_Sheet.md (v2026.1 Technical)
+      ├── C_Verification_Sheet.md (v2026.1 Technical)
+      └── NWMA設計_実務3点セット_v2026.ods (★MASTER_LOCKED)
+
+# 🔗 聖域への道標：URL参照リスト (Permanent Reference List)
+# すべての参照先をここに集約。決して削除しない。
+references:
+  - site: "本家サイト (JUICY LTD.)"
+    three_set_article: "https://juicyltd.biz/network-design-template-3set/"
+    manifesto: "https://juicyltd.biz/nwma-manifesto/"
+    home: "https://juicyltd.biz/"
+  - site: "Qiita (ASTRA_HB)"
+    a_sheets_definition: "https://qiita.com/ASTRA_HB/items/a3420c4dfc8f7a923802"
+    b_sheets_relation: "https://qiita.com/ASTRA_HB/items/09e268b469cb8d7a9848"
+    knowledge_base:
+      - "https://qiita.com/ASTRA_HB/items/4eac8d0c699407381c8d"
+      - "https://qiita.com/ASTRA_HB/items/9cf65a0615d993a7e6d2"
+      - "https://qiita.com/ASTRA_HB/items/8e416f7d897061698701"
+      - "https://qiita.com/ASTRA_HB/items/c81c54c80b6018fb1fd4"
+      - "https://qiita.com/ASTRA_HB/items/57f899450914f583168a"
+      - "https://qiita.com/ASTRA_HB/items/491501b73f4c6bfc1940"
+  - site: "Zenn/note"
+    zenn: "https://zenn.dev/asurawill"
+    note: "https://note.com/cocorzasi"
+  - local_chronicle:
+      - "./chronicle/2026-01/2026-01-10_sanctuary-definition.yaml"
+      - "./chronicle/2026-01/2026-01-11_sanctuary-definition-01.yaml"
+      - "./chronicle/2026-01/2026-01-11_sanctuary-definition-02.yaml"
+      - "./chronicle/2026-01/2026-01-11_sanctuary-definition-03.yaml"
+
+# 🧭 統治憲章：レビュー三軸方針 (Governance Policy / GP-001)
+governance_policy:
+  principles:
+    - "技術的誠実さ: Google Cloud/IaCの挙動に嘘がないこと。Asset/Controlの保護を多重化すること。"
+    - "読者への伝達性: 一文40-60文字、句読点間隔、H1-H3構造の厳守。英語テキスト画像の使用。"
+    - "NWMA思想との整合性: A-Noが『思想→実装→試験』を貫通し、自動執行を担保していること。"
+
+# 🏆 本日の到達点 (Achievements)
+achievements:
+  - phase: "Core_Template_v2026"
+    summary: "実務3点セット（A/B/Cシート）の技術的刷新と凍結"
+    detail: "Asset/Vessel/Control三層構造への定義変更、およびODSファイルへの統合を完了。"
+  - phase: "Asset_Management"
+    summary: "成果物ビジュアルに対するメタデータの策定"
+    detail: "A/B/C 各シートの画像に対し、NWMA 2026 の統治思想を明文化したキャプションを付与。"
+  - phase: "Permanence"
+    summary: "情報継承ルールの定義"
+    detail: "ツリー構造および参照URLの削除禁止を GoLog に明記し、永続性を担保。"
+
+# 🚀 明日への継続タスク (Next Mission)
+next_mission:
+  title: "NWMA 2026 実戦配備シミュレーション"
+  target: "確定した v2026 テンプレートを用いたユースケース設計の実施"
+
+# ⚠️ 固有制約事項 (Constraints)
+constraints:
+  terminology: ["Google Cloud (GCP禁止)", "羅針盤 (多用禁止)", "永続資産 (Asset)", "計算資源 (Vessel)", "GoLog"]
+  visuals: "写実的3D、パステルグラデーション、英語テキストのみ、代替テキスト必須"
+  writing: "。は80文字、、は20-30文字。一文40-60文字。【 】禁止。"
+  persistence: "ツリー構造およびURL参照リストは決して削除しないこと。"
