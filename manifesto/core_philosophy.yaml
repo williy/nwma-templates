@@ -36,6 +36,11 @@ architecture_layers:
     responsibility: "OS/MW設定の維持、構成ドリフトの根絶、再デプロイの執行"
     tools: ["Ansible", "K8s", "Helm", "SSH管理全般"]
 
+  Nexus (The Enforcer):
+    role: "NWMAプロトコルの自動執行および合意形成プラットフォーム"
+    responsibility: "三者対話による『Why』の抽出、A/B/Cシートの整合性リアルタイム監視"
+    action: "Gemini Flash をエンジンとし、設計者の思考を直接データモデル（SQL）へ変換する"
+
 # 用語定義の昇華 (11日の議論に基づく)
 terminology_definition:
   Asset:
@@ -62,6 +67,9 @@ governance_policy:
     - "Commit Messages: All commit messages must be in English."
     - "Persistence: ツリー構造およびURL参照リストの削除・省略は『禁忌』とする。"
     - "Chronicle Naming: 統合YAMLにはYYYYMMDD形式の日付を付与すること。"
+  GP-003_system_standards:
+    - "Asset Isolation: ユーザーデータおよび設計履歴は SQL(MySQL) により Vessel(App) から分離すること。"
+    - "Identity Protection: juicyltd.biz サブドメインによる権限の明確化と SSL 強制。"
 
 # 資産の三位一体 (The Triplets)
 artifacts:
