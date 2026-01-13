@@ -1,12 +1,13 @@
-version: "2026.01.10"
+version: "2026.01.13"
 project: NWMA (Net Worth Management Architecture)
 japanese_name: "IT資産価値管理方式"
 author_profile: "プラットフォームアーキテクト、インフラエンジニア"
+status: "LOCKED"
 
 # 核心的思想
 core_philosophy:
   statement: "SLAを自動執行しない設計は未完成である"
-  goal: "効率化によって失われた設計の『判断』と『意味』を取り戻し、10年先でも価値を保存し続ける"
+  goal: "効率化によって失われた設計の『判断』と『意味』を取り戻し、価値を保存し続ける"
   governance: "人間を単純な調整から解放し、数学的な誠実さに基づく自己修復をシステムに義務付ける"
 
 # 参照情報
@@ -14,6 +15,7 @@ reference_urls:
   manifesto_official: "https://juicyltd.biz/nwma-manifesto/"
   manifesto_zenn: "https://zenn.dev/asurawill/articles/d17d9407671e41"
   implementation_github: "https://github.com/williy/nwma-templates"
+  rd_category: "https://juicyltd.biz/category/rd/#gsc.tab=0"
 
 # 統治階層の定義
 architecture_layers:
@@ -33,22 +35,33 @@ architecture_layers:
     role: "プラットフォーム（状態）の自律執行"
     responsibility: "OS/MW設定の維持、構成ドリフトの根絶、再デプロイの執行"
     tools: ["Ansible", "K8s", "Helm", "SSH管理全般"]
-    target: "OS settings, Middleware config, Application runtime"
 
-# 永続化の原則 (データの聖域化)
-persistence_policy:
-  hierarchy_separation:
-    - layer: "Execution (PWMA/IWMA)"
-      status: "Ephemeral (使い捨て可能)"
-      action: "異常検知時に自動再デプロイを執行する"
-    - layer: "Data (Asset)"
-      status: "Sanctuary (聖域・執行対象外)"
-      action: "削除保護(prevent_destroy)により、器の再生成から隔離・永続化する"
-  
-  execution_order:
-    1: "PWMA層の再同期 (設定リロード/プロセス再起動)"
-    2: "IWMA層の再生成 (器の再起動/再デプロイ)"
-    3: "エスカレーション (人間に主権を戻す)"
+# 用語定義の昇華 (11日の議論に基づく)
+terminology_definition:
+  Asset:
+    old_term: "聖域 (Sanctuary)"
+    definition: "永続資産。削除保護等により器の再生成から隔離・保護されるべきデータ層。"
+  Vessel:
+    old_term: "器"
+    definition: "計算資源。VM、Network、Managed Services等、使い捨て・再生成可能なリソース層。"
+  Control:
+    definition: "制御・執行。OS/MW設定の維持、構成ドリフトの根絶、自律的な状態執行。"
+
+# システム境界の拡張
+scope_expansion:
+  target: "システム設計（論理的ブレードシステム構成）"
+  rule: "Google Cloud リソース（Deletion Protection, Autopilot等）と A-No を 1:1 でマッピングする"
+
+# 統治プロトコル (Governance Policy)
+governance_policy:
+  GP-001_review_standards:
+    - "技術的誠実さ: Google CloudやIaCの挙動に嘘がないこと。Asset/Controlの保護を多重化すること。"
+    - "読者への伝達性: 一文40-60文字、階層的見出し、英語テキスト画像の使用厳守。"
+    - "NWMA思想との整合性: A-Noが『意志→実装→試験』を貫通していること。"
+  GP-002_operational_rules:
+    - "Commit Messages: All commit messages must be in English."
+    - "Persistence: ツリー構造およびURL参照リストの削除・省略は『禁忌』とする。"
+    - "Chronicle Naming: 統合YAMLにはYYYYMMDD形式の日付を付与すること。"
 
 # 資産の三位一体 (The Triplets)
 artifacts:
