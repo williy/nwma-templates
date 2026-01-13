@@ -68,6 +68,18 @@ history:
     event: "v2026 Governance Framework Consolidation"
     decision: "11日の全5回にわたる対話を統合。Asset/Vessel/Controlの三層構造をNWMAの標準用語として確定。"
     why: "断片化したログを統合し、2026年度版の統治基盤としての正典を確立するため。"
+  - date: "2026-01-11"
+    event: "Terminology and Structure Update (Transition from 01-10)"
+    changes:
+      added:
+        - "用語定義：『永続資産（Asset）』、『計算資源（Vessel）』、『制御・執行（Control）』の正式採用。"
+        - "ディレクトリ構造：manifesto/ および templates/ 階層の明文化。"
+        - "外部参照：Zenn/note リンクの集約。"
+      modified:
+        - "三点セット形式：xlsx から ods (★MASTER_LOCKED) への移行。"
+        - "概念拡張：『ネットワーク設計』から『論理的ブレードシステム構成（システム設計）』への対象拡大。"
+      deleted:
+        - "旧用語：『聖域（Sanctuary）』の呼称を実務的な『永続資産（Asset）』へ統合・廃止。"
 
 # ⚠️ 固有制約事項 (Constraints)
 constraints:
