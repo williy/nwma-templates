@@ -1,6 +1,6 @@
-version: "2026.01.13.03"
+version: "2026.01.13.04"
 status: "MISSION_ACCOMPLISHED_WITH_PERMANENCE"
-objective: "NWMA 2026 旗艦コンテンツのロールアウトと統治基盤の完全確立"
+objective: "NWMA 2026 旗艦コンテンツのロールアウトと統治基盤의 完全確立"
 core_philosophy: "効率化によって失われた設計の『判断』と『意味』を取り戻し、価値を保存する"
 
 # 📂 ファイルシステム・ツリー (File System Tree)
@@ -16,7 +16,7 @@ file_system_tree: |
   ├── chronicle
   │   └── 2026-01
   │       ├── 2026-01-10_sanctuary-definition.yaml
-  │       ├── 2026-01-11_sanctuary-definition-05.yaml
+  │       ├── NWMA_Central_Chronicle_20260111.yaml
   │       └── NWMA_Central_Chronicle_20260113.yaml
   ├── manifesto
   │   └── core_philosophy.yaml
@@ -72,10 +72,18 @@ dynamic_wbs:
 # 📜 変更履歴 (History & Decisions)
 history:
   - date: "2026-01-13"
-    event: "Naming Convention Update"
-    decision: "統合ファイル名にYYYYMMDD形式の日付を付与するルールを採用。"
-    why: "設計の変遷を日単位で物理的に追跡可能にし、資産のトレーサビリティを強化するため。"
-    change_log: "NWMA_Central_Chronicle.yaml から NWMA_Central_Chronicle_20260113.yaml へ改名。"
+    event: "Governance Framework Consolidation"
+    changes:
+      added:
+        - "運用の二層化：Chronicle（動的更新履歴）と Manifesto（静的決定事項）の分離。"
+        - "Commit Rule：GP-002に基づき、コミットメッセージの英語化を義務化。"
+        - "命名規則：統合YAMLファイル名に YYYYMMDD 形式の日付を付与。"
+      modified:
+        - "用語定義：『聖域（Sanctuary）』を実務的な『永続資産（Asset）』へ完全統合。"
+        - "ファイル形式：実務3点セットを xlsx から ods (★MASTER_LOCKED) へ変更。"
+      deleted:
+        - "宗教的表現：『聖典』等の宗教色の強い用語を排し、技術的統治用語へ置換。"
+    why: "設計資産の客観性とトレーサビリティを確保し、10年後の保守性を極大化するため。"
 
 # ⚠️ 固有制約事項 (Constraints)
 constraints:
@@ -83,3 +91,4 @@ constraints:
   writing: "句点（。）は約80文字、読点（、）は20〜30文字。一文40〜60文字。"
   persistence: "ツリー構造およびURL参照リストは決して削除しないこと。"
   naming_rule: "統合YAMLにはYYYYMMDD形式の日付を付与して保存すること。"
+  commit_rule: "Commit messages must be in English."
