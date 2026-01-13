@@ -1,0 +1,58 @@
+version: "2026.01.10.01"
+status: "INITIAL_DRAFT"
+objective: "NWMA 2026 旗艦コンテンツのロールアウトと統治基盤の完全確立"
+
+# 📂 ファイルシステム・ツリー (File System Tree)
+# ※元ファイルに記載がないため、当時の構造を反映
+file_system_tree: |
+  ./
+  ├── A-Sheets
+  ├── B-Sheets
+  ├── C-Sheets
+  └── (Other directories not defined in source)
+
+# 🔗 聖域への道標：URL参照リスト
+# ※元ファイルの reference_urls を移行
+references:
+  - site: "manifesto_zenn"
+    url: "https://zenn.dev/asurawill/articles/d17d9407671e41"
+  - site: "implementation_github"
+    url: "https://github.com/williy/nwma-templates"
+
+# 📝 動的WBS (Dynamic Work Breakdown Structure)
+# ※元ファイルの tomorrows_task を WBS 形式へ展開
+dynamic_wbs:
+  priority_1_technical_spec:
+    title: "【基礎編】要件定義とSLA/SLO"
+    status: "Todo"
+    tasks:
+      - id: "Select_A"
+        item: "定型化できる非機能要件、業務特化機能要件、融通の利く要件定義プロセスの策定"
+  priority_2_implementation:
+    title: "Windows 11 WSL2 で始める Google Cloud + Terraform + Ansible 環境ガイド【実践編】"
+    status: "Todo"
+    tasks:
+      - id: "Select_B"
+        item: "Google Cloud (GKE / MariaDB / Wordpress) および Management VPN の構築"
+
+# 📜 変更履歴 (History & Decisions)
+history:
+  - date: "2026-01-10"
+    event: "Project Inception"
+    decision: "NWMA/IWMA/PWMAの三層構造による資産管理方式の定義。一文40-60文字、GCP呼称禁止等の制約を確立。"
+    why: "設計の『判断』と『意味』を10年先まで保存するため。"
+
+# ⚠️ 固有制約事項 (Constraints)
+# ※元ファイルの constraints および定義を統合
+constraints:
+  terminology: ["Google Cloud (GCP禁止)", "羅針盤 (使用禁止)"]
+  writing: "一文40〜60文字程度、句読点を適切に配置、H2/H3見出しの階層的使用。"
+  visuals: "画像内テキストは英語のみ。"
+  core_philosophy: "効率化によって失われた設計の『判断』と『意味』を取り戻し、価値を保存する"
+
+# ℹ️ 初期フレームワーク定義 (Framework Definition)
+# ※元ファイル特有の定義情報を保持
+framework_definition:
+  NWMA: "全体を貫く設計基準・判断基準の策定・価値の数値化 (A/B/Cシート)"
+  IWMA: "基盤層（器）の設計・境界と責任の定義。Terraform/Bicep等を使用。"
+  PWMA: "プラットフォーム層（状態）の管理・自律的な執行。Ansible/K8s等を使用。"
