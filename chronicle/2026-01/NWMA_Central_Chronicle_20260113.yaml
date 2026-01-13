@@ -1,6 +1,6 @@
-version: "2026.01.13.04"
-status: "MISSION_ACCOMPLISHED_WITH_PERMANENCE"
-objective: "NWMA 2026 旗艦コンテンツのロールアウトと統治基盤의 完全確立"
+version: "2026.01.13.06"
+status: "PROJECT_NEXUS_INITIATED"
+objective: "NWMA 2026 旗艦コンテンツのロールアウトと統治基盤の完全確立"
 core_philosophy: "効率化によって失われた設計の『判断』と『意味』を取り戻し、価値を保存する"
 
 # 📂 ファイルシステム・ツリー (File System Tree)
@@ -8,11 +8,15 @@ core_philosophy: "効率化によって失われた設計の『判断』と『�
 file_system_tree: |
   ./
   ├── A-Sheets (Requirements)
+  │   └── A_NWMA_Governance_Nexus.md  # ★NEW: アプリ構想Aシート
   ├── B-Sheets (Architecture)
   │   ├── IWMA (Infrastructure)
   │   └── PWMA (Platform)
   ├── C-Sheets (Verification)
   ├── README.md
+  ├── nexus_app/         # ★NEW: NWMA Governance Nexus Web App Project
+  │   ├── frontend/      # Next.js / React
+  │   └── backend/       # Python/Go (Gemini Flash integration)
   ├── chronicle
   │   └── 2026-01
   │       ├── 2026-01-10_sanctuary-definition.yaml
@@ -27,7 +31,6 @@ file_system_tree: |
       └── NWMA設計_実務3点セット_v2026.ods (★MASTER_LOCKED)
 
 # 🔗 聖域への道標：URL参照リスト (Permanent Reference List)
-# すべての参照先をここに集約。決して削除しない。
 references:
   - site: "本家サイト (JUICY LTD.)"
     three_set_article: "https://juicyltd.biz/network-design-template-3set/"
@@ -36,9 +39,6 @@ references:
   - site: "Qiita (ASTRA_HB)"
     a_sheets_definition: "https://qiita.com/ASTRA_HB/items/a3420c4dfc8f7a923802"
     b_sheets_relation: "https://qiita.com/ASTRA_HB/items/09e268b469cb8d7a9848"
-    knowledge_base:
-      - "https://qiita.com/ASTRA_HB/items/4eac8d0c699407381c8d"
-      - "https://qiita.com/ASTRA_HB/items/9cf65a0615d993a7e6d2"
   - site: "Zenn/note"
     zenn: "https://zenn.dev/asurawill/articles/d17d9407671e41"
     note: "https://note.com/cocorzasi"
@@ -46,49 +46,43 @@ references:
 # 🧭 統治憲章：レビュー三軸方針 (Governance Policy / GP-001)
 governance_policy:
   principles:
-    - "技術的誠実さ: Google CloudやIaCの挙動に嘘がないこと。Asset/Controlの保護を多重化すること。"
+    - "技術的誠実さ: Google CloudやIaCの挙動に嘘がないこと。Asset/Controlの保護を多重化。 "
     - "読者への伝達性: 一文40-60文字、句読点間隔、H1-H3構造の厳守。英語テキスト画像の使用。"
     - "NWMA思想との整合性: A-Noが『思想→実装→試験』を貫通し、自動執行を担保していること。"
 
-# 📝 動的WBS (Dynamic Work Breakdown Structure)
+# 📝 動적WBS (Dynamic Work Breakdown Structure)
 dynamic_wbs:
+  priority_0_governance_nexus:
+    title: "NWMA Governance Nexus (Web App) 開発"
+    status: "In-Progress"
+    tasks:
+      - id: "N-001"
+        item: "CXO/User/Engineer 三者対話用 Gemini Flash プロンプト設計"
+        status: "In-Progress"
+      - id: "N-002"
+        item: "Chronicle YAML と連携するデータスキーマ策定 (T-001の拡張)"
+        status: "Todo"
   priority_1_technical_spec:
     title: "【技術者向け】NWMA詳細仕様と設計判断基準の策定"
     status: "In-Progress"
     tasks:
-      - id: "T-001"
-        item: "A/B/Cシートを統合するYAMLデータスキーマの策定"
-        status: "Todo"
       - id: "T-002"
         item: "AIによる『Why』抽出プロンプトの定義"
         status: "Todo"
-  priority_2_executive:
-    title: "【経営層向け】NWMAビジネス価値定義資料"
-    status: "Pending"
-  priority_3_operational:
-    title: "【現場責任者向け】要件定義策定手順書"
-    status: "Pending"
 
 # 📜 変更履歴 (History & Decisions)
 history:
   - date: "2026-01-13"
-    event: "Governance Framework Consolidation"
-    changes:
-      added:
-        - "運用の二層化：Chronicle（動的更新履歴）と Manifesto（静的決定事項）の分離。"
-        - "Commit Rule：GP-002に基づき、コミットメッセージの英語化を義務化。"
-        - "命名規則：統合YAMLファイル名に YYYYMMDD 形式の日付を付与。"
-      modified:
-        - "用語定義：『聖域（Sanctuary）』を実務的な『永続資産（Asset）』へ完全統合。"
-        - "ファイル形式：実務3点セットを xlsx から ods (★MASTER_LOCKED) へ変更。"
-      deleted:
-        - "宗教的表現：『聖典』等の宗教色の強い用語を排し、技術的統治用語へ置換。"
-    why: "設計資産の客観性とトレーサビリティを確保し、10年後の保守性を極大化するため。"
+    event: "Web App 'Nexus' Concept Integration"
+    decision: |
+      - NWMA自己統治ツール『Nexus』の開発をプロジェクト内に組み込み。
+      - CXO、現場担当者、技術者の三者対話インターフェースの要件をAシート化。
+      - Gemini Flash を高速エンジンとして採用することを決定。
+    why: "ステークホルダー間の合意形成を加速させ、設計思想の先祖返りや矛盾をリアルタイムに検知するため。"
 
 # ⚠️ 固有制約事項 (Constraints)
 constraints:
   terminology: ["Google Cloud (GCP禁止)", "羅針盤 (多用禁止)", "永続資産 (Asset)", "GoLog"]
   writing: "句点（。）は約80文字、読点（、）は20〜30文字。一文40〜60文字。"
   persistence: "ツリー構造およびURL参照リストは決して削除しないこと。"
-  naming_rule: "統合YAMLにはYYYYMMDD形式の日付を付与して保存すること。"
   commit_rule: "Commit messages must be in English."
