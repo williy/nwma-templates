@@ -1,60 +1,60 @@
-# B. 論理・構成設計シート (B-Sheet: Architecture & Logical Design)
+# B. 論理・構成設計シート (B-Sheet: Architecture & Logical Design) v2026.6
 
-本シートは A-Sheet に定義されたポリシーを、Google Cloud 上のリソースパラメータへ具現化するための設計図である。
+本シートは A-Sheet に定義されたポリシーを、Google Cloud 上のリソースパラメータへ具現化するための設計図である。各構成要素は **A-No** と 1:1 で紐付き、その**設計判断理由（Why）**を明示しなければならない。
 
 ## 1. 執行境界およびネットワーク基盤 (Network & Boundary)
+A-002（執行境界定義）に基づき、爆発半径（Blast Radius）を最小化する隔離空間を定義する。
 
-A-002（執行境界定義）に基づき、論理的な隔離空間および通信経路を定義する。
-
-| 構成要素 | リソース名 | 設定値 / パラメータ | 設計根拠 (A-No) | 設計判断理由 |
-| --- | --- | --- | --- | --- |
-| Project | nwma-project-01 | 独立した請求・権限境界 | A-002 | 執行境界の物理的隔離 |
-| VPC | vpc-main | カスタムモード、グローバルルーティング | A-002 | 基盤ネットワークの集約 |
-| Subnet | sn-vessel-app | 10.0.1.0/24 (Region: asia-northeast1) | A-102 | 計算資源（Vessel）の収容領域 |
-| Cloud NAT | nat-gateway | 全サブネット対象、自動割当 | A-301 | 外向き通信の一元管理と秘匿 |
+| B-No | 構成要素 | リソース名（命名規則準拠） | 設定値 / パラメータ | 設計根拠 (A-No) | 設計判断理由 (Why / 別の選択肢を捨てた理由) |
+| :--- | :--- | :--- | :--- | :--- | :--- |
+| **B-101** | **Project** | `nwma-project-id` | 独立した請求・権限境界 | **A-002** | 他システムとの権限・コスト汚染を物理遮断。 |
+| **B-102** | **VPC** | `vpc-main` | カスタムモード | **A-002** | デフォルトVPCを廃し、将来の閉域接続への拡張性を担保。 |
+| **B-103** | **Subnet** | `sn-vessel-app` | `10.0.x.x/24` | **A-102** | 計算資源（Vessel）の境界を明確化。 |
+| **B-104** | **NAT** | `nat-gateway` | 外部IP固定 | **A-301** | 外向き通信の一元管理と接続先SaaSのIP制限に対応。 |
 
 ## 2. 永続資産（Asset）の保護構成
+A-101（永続資産）に基づき、器（Vessel）の消失に依存しないデータの不滅性を担保する。
 
-A-101（永続資産）に基づき、データの不滅性を担保する。
-
-| 構成要素 | リソース名 | 設定値 / パラメータ | 設計根拠 (A-No) | 設計判断理由 |
-| --- | --- | --- | --- | --- |
-| Cloud SQL | sql-master | deletion_protection = true | A-101 | 意図せぬ削除の物理的遮断 |
-| Cloud Storage | bucket-assets | versioning = true | A-101 | オブジェクトの世代管理による保護 |
-| Backup | backup-policy-daily | 保持期間: 30日間 | A-101 / A-203 | 復旧指標（RTO）の達成 |
+| B-No | 構成要素 | リソース名 | 設定値 / パラメータ | 設計根拠 (A-No) | 設計判断理由 (Why / 復旧への備え) |
+| :--- | :--- | :--- | :--- | :--- | :--- |
+| **B-201** | **DB** | `db-instance` | `deletion_protection = true` | **A-101** | 人的ミスによる資産喪失を物理ロックで回避。 |
+| **B-202** | **Storage** | `bucket-assets` | `versioning = true` | **A-101** | 誤更新時の即時リカバリを「器」に頼らず実現。 |
+| **B-203** | **Backup** | `backup-policy` | PITR (任意時点復旧) 有効 | **A-203** | **RTO 10分以内**を達成するための必須技術。 |
 
 ## 3. 計算資源（Vessel）の動的構成
+A-102（計算資源）に基づき、管理負債（OS保守等）の排除と自律的な自動復旧を定義する。
 
-A-102（計算資源）に基づき、無状態化と自動復旧を定義する。
-
-| 構成要素 | リソース名 | 設定値 / パラメータ | 設計根拠 (A-No) | 設計判断理由 |
-| --- | --- | --- | --- | --- |
-| GKE Cluster | gke-vessel-cluster | Autopilot モード | A-102 | 管理負荷排除と自動スケーリング |
-| Node Config | node-vessel-pool | Spot = false (SLA優先) | A-201 | 可用性指標（99.9%）の執行 |
-| Auto Healing | health-check-http | 監視パス: /healthz | A-201 | 自動復旧プロトコルの有効化 |
+| B-No | 構成要素 | リソース名 | 設定値 / パラメータ | 設計根拠 (A-No) | 設計判断理由 (Why / 運用の排除) |
+| :--- | :--- | :--- | :--- | :--- | :--- |
+| **B-301** | **Runtime** | `cloud-run-service` | `min-instances: 0 or 1` | **A-102** | サーバーレス採用によりOS管理負債をGoogleへ委託。 |
+| **B-302** | **Scaling** | `autoscaler` | CPUターゲット: 60% | **A-201** | 突発負荷に対し、**人間を介さず**可用性を執行。 |
+| **B-303** | **Healing** | `health-check` | Liveness / Startup Probe | **A-201** | ハングアップした「器」の自動廃棄と即時置換。 |
 
 ## 4. 制御平面（Control Plane）の隔離
+A-103（制御平面）に基づき、統治権（State）の改ざん防止と機密情報のロックを行う。
 
-A-103（制御平面）に基づき、状態管理およびアクセス権をロックする。
-
-| 構成要素 | リソース名 | 設定値 / パラメータ | 設計根拠 (A-No) | 設計判断理由 |
-| --- | --- | --- | --- | --- |
-| Terraform State | gcs-tfstate | Bucket Lock (WORMポリシー) | A-103 | 構成情報の改ざん・削除防止 |
-| IAM Role | sa-deployer | 最小権限原則 (Least Privilege) | A-103 | 特権アクセスの厳密な境界定義 |
-| Security | iap-tunnel | identity_aware_proxy = enabled | A-301 | ゼロトラストアクセスの強制 |
+| B-No | 構成要素 | リソース名 | 設定値 / パラメータ | 設計根拠 (A-No) | 設計判断理由 (Why / 権限の分離) |
+| :--- | :--- | :--- | :--- | :--- | :--- |
+| **B-401** | **State** | `gcs-tfstate` | Bucket Lock (WORM) | **A-103** | 設計正本の物理的改ざんおよび削除を禁止。 |
+| **B-402** | **Identity** | `sa-deployer` | **最小権限原則** | **A-301** | Builder/Operator による「資産汚染」を防止。 |
+| **B-403** | **Secret** | `secret-manager` | 顧客管理暗号鍵 (CMEK) | **A-302** | 環境変数への機密情報混入を「禁忌」として排除。 |
 
 ---
 
-### GoLog v2026.01.11.20 (Architecture Finalization)
+### GoLog v2026.04.26.18 (Ultimate Architecture Locked)
 
 ```yaml
-version: "2026.01.11.20"
-status: "B-SHEET_TECHNICAL_LOCKED"
+version: "2026.06.01.02" # プロトコル・バージョン v2026.6
+status: "ULTIMATE_MASTER_LOCKED"
 
 activity_log:
-  - time: "20:55"
-    action: "B_Architecture_Sheet.md の最終更新"
-    detail: "旧来の IP/VLAN 設計を、NWMA 2026 準拠の論理構成設計へ刷新。全リソースを A-No へ紐付け完了。"
-    status: "MASTER_VERSION_LOCKED"
-
+  - time: "17:10"
+    action: "B-Sheet テンプレート v2026.6 への昇格"
+    detail: |
+      - 設計判断理由（Why）の記述を必須化。
+      - 「なぜその構成か」に答えられない設定を排除する工学的検閲を組み込み。
+      - B-No をユニバーサルキーとして定義し、IaCコードとの完全同期を義務付け。
+    status: "PROFESSIONAL_READY"
 ```
+
+---
