@@ -1,78 +1,53 @@
-version: "2026.01.13"
+version: "2026.04.26"
 project: NWMA (Net Worth Management Architecture)
 japanese_name: "IT資産価値管理方式"
 author_profile: "プラットフォームアーキテクト、インフラエンジニア"
-status: "LOCKED"
+status: "LOCKED" # 統治プロトコルの最終確定
 
 # 核心的思想
 core_philosophy:
-  statement: "SLAを自動執行しない設計は未完成である"
+  statement: "SLAを自動執行しない設計は未完成であり、責任境界なき運用は資産の汚染である"
   goal: "効率化によって失われた設計の『判断』と『意味』を取り戻し、価値を保存し続ける"
-  governance: "人間を単純な調整から解放し、数学的な誠実さに基づく自己修復をシステムに義務付ける"
-
-# 参照情報
-reference_urls:
-  manifesto_official: "https://juicyltd.biz/nwma-manifesto/"
-  manifesto_zenn: "https://zenn.dev/asurawill/articles/d17d9407671e41"
-  implementation_github: "https://github.com/williy/nwma-templates"
-  rd_category: "https://juicyltd.biz/category/rd/#gsc.tab=0"
+  governance: "人間を単純な調整から解放し、数学的な誠実さと『物理的な拒絶（403）』による統治をシステムに義務付ける"
 
 # 統治階層の定義
 architecture_layers:
   NWMA (The Constitution):
     role: "最上位の設計憲法・判断基準の策定"
-    responsibility: "A/B/Cシートの整合性担保、価値の数値化"
-    action: "自らは直接操作せず、IWMA/PWMAへ執行を委譲する"
-    in_short: "10年後、誰一人として『これ作ったの誰だよ！意味わかんねぇよ！』と絶望させないための設計の仕組み"
-  
-  IWMA (Infrastructure / The Vessel):
-    role: "基盤（器）の設計・境界定義"
-    responsibility: "物理/仮想リソースの提供、データの永続化層の保護"
-    tools: ["Terraform", "Bicep", "CloudFormation", "Google Cloud / AWS / Azure / OCI", "手順書(オンプレ)"]
-    target: "VM, Network, Managed Services (Cloud SQL/GCS etc.)"
-  
-  PWMA (Platform / The State):
-    role: "プラットフォーム（状態）の自律執行"
-    responsibility: "OS/MW設定の維持、構成ドリフトの根絶、再デプロイの執行"
-    tools: ["Ansible", "K8s", "Helm", "SSH管理全般"]
+    responsibility: "A/B/Cシートの整合性担保、および『責任主権(Ownership)』の確立"
+    action: "Owner/Architect/Builder/Operator の職務を分離し、権限の私物化を許さない"
+    in_short: "10年後、誰もが『この設計思想があるから、今もこの資産は清潔だ』と確信できる統治の仕組み"
 
   Nexus (The Enforcer):
     role: "NWMAプロトコルの自動執行および合意形成プラットフォーム"
-    responsibility: "三者対話による『Why』の抽出、A/B/Cシートの整合性リアルタイム監視"
-    action: "Gemini Flash をエンジンとし、設計者の思考を直接データモデル（SQL）へ変換する"
+    responsibility: "三者対話による『Why』の抽出、および例外ポリシー(A-303)の有効期限監視"
+    action: "Gemini Flash をエンジンとし、設計者の思考をデータモデルへ変換。ドリフト検知時はIaCによる強制修復を指示する"
 
-# 用語定義の昇華 (11日の議論に基づく)
+# 用語定義の昇華 (プロの是正に基づく)
 terminology_definition:
-  Asset:
-    old_term: "聖域 (Sanctuary)"
-    definition: "永続資産。削除保護等により器の再生成から隔離・保護されるべきデータ層。"
-  Vessel:
-    old_term: "器"
-    definition: "計算資源。VM、Network、Managed Services等、使い捨て・再生成可能なリソース層。"
-  Control:
-    definition: "制御・執行。OS/MW設定の維持、構成ドリフトの根絶、自律的な状態執行。"
-
-# システム境界の拡張
-scope_expansion:
-  target: "システム設計（論理的ブレードシステム構成）"
-  rule: "Google Cloud リソース（Deletion Protection, Autopilot等）と A-No を 1:1 でマッピングする"
+  Asset (永続資産):
+    definition: "削除保護および不変性を強制されるデータ層。器の再生成に依存せず存続する『資産の核』。"
+  Vessel (計算資源):
+    definition: "使い捨て・再生成可能なリソース層。状態を持たず、SLO(A-200)に基づき自律的に置換・拡張される。"
+  Control (制御・執行):
+    definition: "同一性検証(Identity)に基づくアクセス制御。例外設定を『野良』にせず、期限付きポリシーとして管理する権限層。"
+  Why (設計判断理由):
+    definition: "『なぜ別の構成ではダメなのか』を証明する論理。レビューにおける必勝の武器であり、将来の負債化を防ぐ防腐剤。"
 
 # 統治プロトコル (Governance Policy)
 governance_policy:
   GP-001_review_standards:
-    - "技術的誠実さ: Google CloudやIaCの挙動に嘘がないこと。Asset/Controlの保護を多重化すること。"
-    - "読者への伝達性: 一文40-60文字、階層的見出し、英語テキスト画像の使用厳守。"
-    - "NWMA思想との整合性: A-Noが『意志→実装→試験』を貫通していること。"
+    - "技術的誠実さ: 異常系（Fail時アクション）が定義されていること。拒絶されるべきアクセスが物理的に遮断されること。"
+    - "責任の明確化: A-004〜007に基づき、誰が資産の権利を持ち、誰が構築を代行するかが明記されていること。"
+    - "NWMA思想との整合性: A-Noが『意志(Why)→実装(How)→試験(Evidence)』を貫通し、例外が期限管理されていること。"
   GP-002_operational_rules:
-    - "Commit Messages: All commit messages must be in English."
-    - "Persistence: ツリー構造およびURL参照リストの削除・省略は『禁忌』とする。"
-    - "Chronicle Naming: 統合YAMLにはYYYYMMDD形式の日付を付与すること。"
+    - "Zero Drift Policy: IaC外の手動変更を『資産の汚染』と定義し、検知時は自動是正（C-Sheet）を試行すること。"
+    - "Persistence: ツリー構造、URL参照リスト、および失敗時のリカバリ手順の省略は『禁忌』とする。"
   GP-003_system_standards:
-    - "Asset Isolation: ユーザーデータおよび設計履歴は SQL(MySQL) により Vessel(App) から分離すること。"
-    - "Identity Protection: juicyltd.biz サブドメインによる権限の明確化と SSL 強制。"
+    - "Exception Governance: すべての特例設定には承認者と有効期限を紐付け、期限超過時は自動剥奪または警告を執行すること。"
 
 # 資産の三位一体 (The Triplets)
 artifacts:
-  A_Sheet: "Why (意志の資産化 - 要件定義)"
-  B_Sheet: "How (構造の正本 - IaC/設計図)"
-  C_Sheet: "Verification (自律的な証明 - 試験/検証)"
+  A_Sheet: "Intent (意志と責任の資産化 - 統治憲法)"
+  B_Sheet: "Structure (構造の正本 - 物理執行図)"
+  C_Sheet: "Enforcement (自律的な証明 - 強制執行ドリル)"
