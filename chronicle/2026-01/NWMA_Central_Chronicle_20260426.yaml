@@ -1,0 +1,72 @@
+version: "2026.04.26.15"
+status: "GOVERNANCE_LOCKED" # ステータスを「統治ロック」へ昇格
+objective: "プロ視点の是正による『殴り勝てるNWMA』の完成と、運用・例外・責任の完全定義"
+core_philosophy: "単なる設計図から、例外を許容しつつ資産を腐らせない『動的な統治機構』への昇華"
+
+# 📂 ファイルシステム・ツリー (File System Tree)
+# ローカルリポジトリの状態を常に同期。決して削除しない。
+file_system_tree: |
+  ./
+  ├── A-Sheets (Requirements)
+  │    └── A_NWMA_Governance_Nexus.md  # 修正：責任境界(A-004-007)と例外設計(A-303)を追加
+  ├── B-Sheets (Architecture)
+  │    ├── IWMA (Infrastructure)       # 修正：設計判断理由(Why)を全項目に注入
+  │    └── PWMA (Platform)
+  ├── C-Sheets (Verification)          # 修正：Fail時アクションとPass条件を物理定義
+  ├── README.md
+  ├── nexus_app/         # プロジェクト名: NWMA Nexus (Self-Governance App)
+  │    ├── frontend/      # Next.js / React (Xserver Node.js env)
+  │    └── backend/       # Python/Go (Gemini Flash integration)
+  ├── chronicle
+  │    └── 2026-01
+  │        ├── 2026-01-10_sanctuary-definition.yaml
+  │        ├── NWMA_Central_Chronicle_20260111.yaml
+  │        └── NWMA_Central_Chronicle_20260113.yaml
+  ├── manifesto
+  │    └── core_philosophy.yaml
+  └── templates
+      ├── A_Requirement_Sheet.md (v2026.4 Professional)
+      ├── B_Architecture_Sheet.md (v2026.4 Professional)
+      ├── C_Verification_Sheet.md (v2026.4 Professional)
+      └── NWMA設計_実務3点セット_v2026.ods (★MASTER_LOCKED_V2)
+
+# 🧭 統治憲章：レビュー三軸方針 (Governance Policy / GP-001)
+governance_policy:
+  principles:
+    - "技術的誠実さ: 正常系だけでなく、異常系および権限拒絶（403）を正しく合格と定義すること。"
+    - "責任の所在: Owner/Architect/Builder/Operator の役割を分離し、主権をOwnerに帰属させること。"
+    - "例外の統治: 野良設定を認めず、全ての例外を『有効期限付きポリシー』として管理下に置くこと。"
+
+# 📝 動的WBS (Dynamic Work Breakdown Structure)
+dynamic_wbs:
+  priority_0_governance_nexus:
+    title: "NWMA Nexus (Web App) 開発"
+    status: "In-Progress"
+    tasks:
+      - id: "N-001"
+        item: "CXO/User/Engineer 三者対話用『責任分界/例外抽出』プロンプト設計"
+        status: "Todo"
+      - id: "N-004"
+        item: "C-Sheet連動：検証失敗時のIaC強制リカバリ・プロトコルの実装"
+        status: "Todo"
+
+# 📜 変更履歴 (History & Decisions)
+history:
+  - date: "2026-04-26"
+    event: "Professional Governance Hardening (是正完了)"
+    decision: |
+      - 実務3点セットに「プロ視点の是正」を全面適用。
+      - A-Sheet: 責任境界（A-004〜007）と例外ポリシー（A-303）を新設。
+      - B-Sheet: 全項目に「設計判断理由(Why)」を義務付け。
+      - C-Sheet: 「Fail時アクション」と「具体的Pass基準」を追加。
+    why: "設計書を単なる説明資料から、監査に耐え、運用を腐らせない『統治台帳』へ引き上げるため。"
+  - date: "2026-04-26"
+    event: "Definition of Asset/Vessel/Control Enforcement"
+    decision: "三層分離を徹底し、特にControl(鍵)とVessel(器)の物理隔離を再定義。"
+    why: "情報の非対称性を解消し、特定ベンダーへの依存（ロックイン）を排除するため。"
+
+# ⚠️ 固有制約事項 (Constraints)
+constraints:
+  terminology: ["Google Cloud (GCP禁止)", "永続資産 (Asset)", "計算資源 (Vessel)", "制御平面 (Control)", "設計判断理由 (Why)"]
+  persistence: "ツリー構造、URL参照リスト、およびFail時アクションの定義は決して削除しないこと。"
+  governance: "すべての例外設定には有効期限と承認フローを必須とする。"
